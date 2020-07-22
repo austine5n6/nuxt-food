@@ -1,14 +1,5 @@
 <template>
 <div class="container">
-  <div v-if="recipeExists">
-      <h3> Result for {{ $route.params.id }}</h3>
-          {{getSearch}}
-  </div>
-  <div v-else>
-   
-  </div>
-  
-
     <section v-for="(detail, index) in getDetail" :key="index">
       <div class="tile is-parent">
          <article class="tile is-child box level">
@@ -72,31 +63,27 @@
 <script>
 import axios from 'axios';
 export default {
+  data() {
+    return {
+      id: this.$route.params.id  
+    }
+  },
+  mounted() {
+    this.$store.dispatch('recipeAction', this.id);
   
-      // validate ({ params, store }) {
-      //   // return /^\d+$/.test(params.id);
-      //   return store.state.detail.filter((el, index) => {
-      //     if (el.id === params.id)
-      //         return true;
-      //   })
-      // },
+  },
 
- middleware: ['recipeinfo', 'search'], 
+  
     computed: {
         getIngredient() {
         return this.$store.getters.getIngredient;
         },
         getDetail() {
-           return this.$store.getters.getDetail.slice(0,1);
+           return this.$store.getters.getDetail;
         },
-        getSearch() {
-          return this.$store.getters.getSearch;
-        },
-        recipeExists() {
-          return this.$store.state.search.length > 0;
-        }
-  
     },
+
+   
    
 }
    

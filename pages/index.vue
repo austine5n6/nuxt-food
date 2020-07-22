@@ -10,13 +10,15 @@
       <!-- results.extendedIngredients contains the recipes ingredients -->
         
     
-        <ul class="columns">
-          <li class="box columns">
+        <ul>
+          <li class="columns" style="width: auto;">
+            
               <Pack v-for="(detail,index) in getDetails" :key="index"
                             :id="detail.id"
                             :image="detail.image"
                             :title="detail.title"
                             :readyTime="detail.readyTime"
+                            class="column"
                  />   
           </li>
         </ul>
@@ -33,21 +35,17 @@ export default {
   components: {
     Pack,
   },
-
   data() {
-    return {
-      results: [],
-      extendedIngredients: [],
-      mydetails: [],
+    return{
       search: ''
-     
     }
   },
-
+middleware: 'search',
   methods: {
       submit(event) {
-        this.$router.push(`recipes/${this.search}`);
+        this.$router.push(`recipes/search/${this.search}`);
       },
+      
   },
   computed: {
       getDetails() {
@@ -57,10 +55,11 @@ export default {
       
   },
 
-  mounted() {        
-         let keyz = [479102,479103,345565];
-         keyz.map(key => {
-              return axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${key}/information`, {
+  mounted() { 
+    // '479102','479103','345565'
+         var arrayKeyList = [...new Set([479102,479103,345565])];
+         arrayKeyList.map(value => {
+              axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${value}/information`, {
                             "method": "GET",
                               "headers": {
                                   "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
@@ -69,8 +68,9 @@ export default {
                           })
                             .then((response) => {
                               let res = response.data;
-                               this.$store.dispatch('recipeDetails', res);
-                               this.$store.dispatch('recipeIngredients', res);
+                              
+                              this.$store.dispatch('recipeDetails', res);
+                              this.$store.dispatch('recipeIngredients', res);
                                       
                })
                .catch(error => {
@@ -92,20 +92,20 @@ h1 {
   padding: 20px;
 }
 
-ul {
+/* ul {
 
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   
-}
+} */
 
-li {
+/* li {
   display: flex;
-  flex: 0 1 auto;
+  flex: 0 1 auto; 
  
-  /* margin: 1em; */
+  margin: 1em;
   
-}
+} */
 
 </style>

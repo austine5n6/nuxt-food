@@ -2,11 +2,8 @@
         <div class="container">
                 <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <!-- <a href="#" class="navbar-item"> -->
                  <nuxt-link to="/" class="navbar-item">
-               
                 <img src="../assets/images/good_food.png" width="" height="" alt="Good food logo">
-           
             </nuxt-link>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
                 <span aria-hidden="true"></span>

@@ -17,14 +17,15 @@ export default function( {params, store} ) {
     "number":"10",
     "offset":"0",
     "type":"main course",
-    "query":params.id
+    "query":`${params.id}`
 
-    // `${params.id}`
+   
     }
     })
     .then((response)=>{
       let res = response.data.results;
       store.dispatch('searchRecipe', res);
+      console.log(res);
        
       // console.log(response.data);
     })

@@ -1,8 +1,8 @@
 <template>
-    <div class="columns" style="padding: 10px;">
+    <div class="column" style="padding: 10px;">
 
 <div class="card column" style="width: 350px; margin: 10px;">
-        <div class="card-image" @click="doThis">
+        <div class="card-image" >
             <figure class="image is-5by3">
                 <img :src="image" alt="placeholder image">
             </figure>
@@ -19,20 +19,13 @@
                     <p class="subtitle is-6"><strong>Ready Time:</strong> {{ readyTime }} minutes</p>
                     
                        <p>
-                    <nuxt-link :to="`recipes/${id}`">View Recipe Instructions</nuxt-link>
+                    <nuxt-link :to="`recipes/${id}`">View Recipe</nuxt-link>
                 </p>
         
                 </div>
             </div>
         </div>
-        <!-- <footer class="card-footer">
-            
-            <p class="card-footer-item">
-                <span>
-                    <nuxt-link :to="`recipes/${id}`">View Recipe Instructions</nuxt-link>
-                </span>
-            </p>
-        </footer> -->
+
         </div>
     </div>
     
@@ -41,14 +34,9 @@
 <script>
 export default {
     props:['image','title','readyTime','id'],
-    // props:['details', 'extendedIngredients'],
+    
    
-        methods: {
-            doThis(){
-                alert("To the link");
-            }
-        },
-     
+    
 }
 </script>
 

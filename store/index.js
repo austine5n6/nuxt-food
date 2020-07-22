@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import axios from 'axios'
 
 const createStore = () => {
         return new Vuex.Store({
@@ -12,8 +13,8 @@ const createStore = () => {
 
             },
             mutations: {
-                recipeDetails(state,payload) {
-                   Object.keys(payload).forEach(key => {
+                recipeDetails(state,payload) {            
+                  Object.keys(payload).forEach(key => {
                         if (key === 'title')
                             state.details.push({
                             id: payload.id,
@@ -23,11 +24,14 @@ const createStore = () => {
                             summary: payload.summary,
                             readyTime: payload.readyInMinutes
                         })
+                    
                         
                     });
                    
+                   
                 },
                 recipeIngredients: (state, payload) => {
+                           
                         Object.keys(payload).forEach(key => {
                             if(key === 'extendedIngredients') {
                                 payload.extendedIngredients.forEach(ingredients => {
@@ -45,6 +49,8 @@ const createStore = () => {
                         })
                 },
                 recipeDetail: (state, payload) => {
+                    // return state.detail = payload;
+                    state.detail = [];
                     Object.keys(payload).forEach(key => {
                         if (key === 'title')
                             state.detail.push({
@@ -55,11 +61,12 @@ const createStore = () => {
                             summary: payload.summary,
                             readyTime: payload.readyInMinutes
                         })
-                       
+                      
 
                     });
                 },
                 recipeIngredient: (state, payload) => {
+                    state.ingredient = [];
                     Object.keys(payload).forEach(key => {
                         if(key === 'extendedIngredients') {
                             payload.extendedIngredients.forEach(ingredients => {
@@ -70,7 +77,7 @@ const createStore = () => {
                                     amount: ingredients.amount,
                                     originalString: ingredients.originalString
                             })
-                           
+                            
                              
                             })
                         }
@@ -87,12 +94,25 @@ const createStore = () => {
               recipeIngredients: (context, payload) => {
                   context.commit('recipeIngredients', payload);
               },
-              recipeDetail: (context, payload) => {
-                context.commit('recipeDetail', payload);
+              recipeAction: (context, payload) => {
+                return axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${payload}/information`, {
+                                        "method": "GET",
+                                          "headers": {
+                                              "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+                                              "x-rapidapi-key": "a3ad3eb22cmsh354a562d01e9643p16724fjsn3e406c92ef77"
+                                          }
+                                      })
+                                        .then((response) => {
+                                            let res = response.data;
+                                              context.commit('recipeDetail', res);
+                                              context.commit('recipeIngredient', res);
+                                
+                                       })
+                                .catch(error => {
+                                  console.log(error)
+                                })
               },
-              recipeIngredient: (context, payload) => {
-                context.commit('recipeIngredient', payload);
-              },
+            
               searchRecipe: (context, payload) => {
                   context.commit('searchRecipe', payload);
               }
@@ -112,7 +132,14 @@ const createStore = () => {
                     return state.ingredient;
                 },
                 getSearch: state => {
-                    return state.search;
+                    var mySearch = state.search.map(search => {
+                        return {
+                            id: search.id,
+                            title: search.id,
+                            image: search.id
+                        }
+                    });
+                    return mySearch;
                 }
                
         }
