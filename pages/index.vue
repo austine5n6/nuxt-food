@@ -56,8 +56,8 @@ middleware: 'search',
   },
 
   mounted() { 
-    // '479102','479103','345565'
-         var arrayKeyList = [...new Set([479102,479103,345565])];
+  
+         const arrayKeyList = [...new Set([479102,479103,345565])];
          arrayKeyList.map(value => {
               axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${value}/information`, {
                             "method": "GET",

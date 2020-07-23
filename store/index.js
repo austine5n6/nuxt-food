@@ -84,7 +84,9 @@ const createStore = () => {
                     })
                 },
                 searchRecipe: (state, payload) => {
-                    state.search = payload;     
+                    state.search = payload; 
+                    
+                       
                 },   
             },
           actions: {
@@ -132,11 +134,13 @@ const createStore = () => {
                     return state.ingredient;
                 },
                 getSearch: state => {
-                    var mySearch = state.search.map(search => {
+                    // return state.search;
+                    var mySearch = state.search.map( search => {
                         return {
                             id: search.id,
-                            title: search.id,
-                            image: search.id
+                            title: search.title,
+                            image: search.image,
+                            readyTime: search.readyInMinutes
                         }
                     });
                     return mySearch;
